@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { IOption, IQuestion, ISelectedOption, ISurvey, ISurveyResult, ISurveyResultOption, ISurveyResultQuestion } from "../../models";
+import { IOption, IQuestion, ISelectedOption, ISurvey, ISurveyResult } from "../../models";
 import { selectCurrentSurvey, selectSurveys, selectSurveyResults, selectUserId } from "../redux/surveys.selectors";
-import { getSurvey, setOptionSelection, getSurveyResult, setCurrentSurvey } from '../redux/surveys.slice'
+import { getSurvey, setOptionSelection, setCurrentSurvey } from '../redux/surveys.slice'
 import './survey.styles.scss';
 
 class Survey extends React.Component<any,any> {

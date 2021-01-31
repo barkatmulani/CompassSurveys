@@ -110,17 +110,17 @@ export const getSurveys = (): AppThunk =>
 export const getSurvey = (userId: string, id: number, surveyResult: ISurveyResult): AppThunk =>
   async dispatch => {
     await fetchSurvey(id)
-        .then((survey: ISurvey) => {
-                if (surveyResult) {
-                  survey = mergeSurveyResult(survey, surveyResult);
-                }
-                else {
-                  dispatch(getSurveyResult(userId, id));
-                }
+      .then((survey: ISurvey) => {
+        if (surveyResult) {
+          survey = mergeSurveyResult(survey, surveyResult);
+        }
+        else {
+          dispatch(getSurveyResult(userId, id));
+        }
 
-                dispatch(getSurveySuccess(survey));
-              },
-              (err: any) => dispatch(getSurveyFailed(err.toString())))
+        dispatch(getSurveySuccess(survey));
+      },
+      (err: any) => dispatch(getSurveyFailed(err.toString())))
     }
 
 export const getSurveyResult = (userId: string, id: number): AppThunk =>

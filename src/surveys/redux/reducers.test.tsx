@@ -17,8 +17,10 @@ import reducer, { getSurveysSuccess, getSurveyResultSuccess, setCurrentSurvey, s
 
 describe('reducers', () => {
   const initialState = undefined;
+  const USER_ID = '123';
 
   const emptyState: ISurveysState = {
+    userId: '',
     surveys: [],
     currentSurvey: {} as ISurvey,
     surveyResults: []
@@ -37,6 +39,7 @@ describe('reducers', () => {
   const surveys: ISurvey[] = [ survey1, survey2 ] as ISurvey[];
   
   const surveyResult1: ISurveyResult = {
+    userId: USER_ID,
     id: 1,
     questions: [{ id: 1,
       options: [{ id: 1, isChecked: true }, { id: 2, isChecked: true }]
@@ -44,6 +47,7 @@ describe('reducers', () => {
   };
 
   const surveyResult2: ISurveyResult = {
+    userId: USER_ID,
     id: 2,
     questions: [{ id: 1,
       options: [{ id: 1, isChecked: true }, { id: 2, isChecked: true }]
@@ -72,6 +76,7 @@ describe('reducers', () => {
   
   test('getSurveyResultSuccess: correctly adds item to the "surveyResults" array', () => {
     const initialState: ISurveysState = {
+      userId: USER_ID,
       surveys: [],
       currentSurvey: {} as ISurvey,
       surveyResults: [surveyResult1]
@@ -84,6 +89,7 @@ describe('reducers', () => {
   test('setOptionSelection: correctly sets the selected option. Adds item to "surveyResults" array \
         and set isChange option value of the corresponding "surveyResults" array item', () => {
     const initialState: ISurveysState = {
+      userId: USER_ID,
       surveys: [survey1],
       currentSurvey: survey1,
       surveyResults: []

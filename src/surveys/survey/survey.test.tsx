@@ -1,5 +1,5 @@
 import React from 'react';
-import Enzyme, { mount, shallow } from 'enzyme';
+import Enzyme, { shallow } from 'enzyme';
 import EnzymeAdapter from 'enzyme-adapter-react-16';
 
 import { findByTestAttr, storeFactory } from '../../../test/testUtils';
@@ -30,6 +30,7 @@ const setup = (initialState = {}) => {
 describe('renders', () => {
   const initialState: any = {
     compassSurveys: {
+      userId: '123',
       surveys: [survey1],
       currentSurvey: survey1,
       surveyResults: []
