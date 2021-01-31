@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { getSurvey, getSurveyResult } from "../../api/apiServicce";
 import { IOption, IQuestion, ISelectedOption, ISurvey, ISurveyResult, ISurveyResultOption, ISurveyResultQuestion } from "../../models";
-import { selectCurrentSurvey, selectSurveys, selectSurveyResults } from "../redux/surveys.selectors";
-import { setCurrentSurvey, setOptionSelection, setSurveyResult } from '../redux/surveys.slice'
+import { selectCurrentSurvey, selectSurveys, selectSurveyResults, selectUserId } from "../redux/surveys.selectors";
+import { getSurvey, setOptionSelection, getSurveyResult, setCurrentSurvey } from '../redux/surveys.slice'
 import './survey.styles.scss';
 
 class Survey extends React.Component<any,any> {
@@ -13,50 +12,19 @@ class Survey extends React.Component<any,any> {
         this.handleBack = this.handleBack.bind(this);
     }
 
-    async componentDidMount() {
-        let survey: ISurvey = {} as ISurvey;
-        let id: number;
+    componentDidMount() {
+        const { getSurvey, userId, location, surveyResults } = this.props;
 
-        if (this.props.location) {
-            const locArray = this.props.location.pathname.split('/');
-            id = parseInt(locArray[locArray.length - 1]);
-            survey = await getSurvey(id);
-
-            let surveyResult = this.props.surveyResults && this.props.surveyResults.find((sr: ISurveyResult) => sr.id == id);
-            if (!surveyResult) {
-                surveyResult = await getSurveyResult(id);
-                this.props.setSurveyResult(surveyResult);
-                survey = this.mergeSurveyResult(survey, surveyResult);
-            }
-
-            if (surveyResult) {
-                survey = this.mergeSurveyResult(survey, surveyResult);
-            }
-
-            if (Object.keys(survey).length) {
-                this.props.setCurrentSurvey(survey);
-            }
+        if (location) {
+            const locArray = location.pathname.split('/');
+            const id = parseInt(locArray[locArray.length - 1]);
+            const surveyResult = surveyResults && surveyResults.find((sr: ISurveyResult) => sr.id === id);
+            getSurvey(userId || '123456', id, surveyResult);
         }
     }
 
-    mergeSurveyResult(survey: ISurvey, surveyResult: ISurveyResult): ISurvey {
-        let survey2 = JSON.parse(JSON.stringify(survey));
-
-        surveyResult.questions.forEach((srq: ISurveyResultQuestion) => {
-            srq.options.forEach((sro: ISurveyResultOption) => {
-                let question = survey2.questions.find((q: IQuestion) => q.id === srq.id) as IQuestion;
-                if (question) {
-                    let option = question.options.find((o: IOption) => o.id === sro.id) as IOption;
-                    option.isChecked = sro.isChecked;
-                }
-            })
-        });
-
-        return survey2;
-    }
-
     handleInputChange(question: IQuestion, option: IOption, event: any) {
-        event.stopPropagation();
+        //event.stopPropagation();
         this.props.setOptionSelection({surveyId: this.props.currentSurvey.id, questionId: question.id, optionId: option.id } as ISelectedOption);
     };
 
@@ -89,7 +57,7 @@ class Survey extends React.Component<any,any> {
                                             <label>
                                                 <input  type="checkbox"
                                                         test-data="option"
-                                                        defaultChecked={option.isChecked}
+                                                        checked={option.isChecked}
                                                         onChange={(e) => this.handleInputChange(question, option, e)} />
                                                 &nbsp;
                                                 {option.text}
@@ -113,6 +81,7 @@ class Survey extends React.Component<any,any> {
 
 const mapStateToProps = (state: any) => {
     return {
+        userId: selectUserId(state),
         surveys: selectSurveys(state),
         currentSurvey: selectCurrentSurvey(state),
         surveyResults: selectSurveyResults(state)
@@ -121,9 +90,9 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
+        getSurvey: (userId: string, id: number, surveyResult: ISurveyResult) => dispatch(getSurvey(userId, id, surveyResult)),
         setCurrentSurvey: (survey: ISurvey) => dispatch(setCurrentSurvey(survey)),
-        setOptionSelection: (selectedOption: ISelectedOption) => dispatch(setOptionSelection(selectedOption)),
-        setSurveyResult: (surveyResults: ISurveyResult) => dispatch(setSurveyResult(surveyResults))
+        setOptionSelection: (selectedOption: ISelectedOption) => dispatch(setOptionSelection(selectedOption))
     };
 };
 

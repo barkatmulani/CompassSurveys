@@ -1,13 +1,10 @@
-import Enzyme, { shallow } from 'enzyme';
+import Enzyme from 'enzyme';
 import EnzymeAdapter from 'enzyme-adapter-react-16';
-import { Provider } from 'react-redux';
-import { storeFactory } from '../../../test/testUtils';
 import { IOption, IQuestion, ISelectedOption, ISurvey, ISurveyResult, ISurveysState } from '../../models';
-import Main from '../main/main.component';
 
 Enzyme.configure({ adapter: new EnzymeAdapter() })
 
-import reducer, { setSurveys, setCurrentSurvey, setOptionSelection, setSurveyResult } from './surveys.slice';
+import reducer, { getSurveysSuccess, getSurveyResultSuccess, setCurrentSurvey, setOptionSelection } from './surveys.slice';
 
 // const setup = (initialState = []) => {
 //   const store = storeFactory(initialState);
@@ -63,8 +60,8 @@ describe('reducers', () => {
     expect(result).toEqual(emptyState);
   });
 
-  test('setSurveys: correctly sets the "surveys" array', () => {
-    let result =  reducer(initialState, setSurveys(surveys));
+  test('getSurveysSuccess: correctly sets the "surveys" array', () => {
+    let result =  reducer(initialState, getSurveysSuccess(surveys));
     expect(result.surveys.length).toBe(surveys.length);
   });
 
@@ -73,15 +70,15 @@ describe('reducers', () => {
     expect(result.currentSurvey).toEqual(survey1);
   });
   
-  test('setSurveyResult: correctly adds item to the "surveyResults" array', () => {
+  test('getSurveyResultSuccess: correctly adds item to the "surveyResults" array', () => {
     const initialState: ISurveysState = {
       surveys: [],
       currentSurvey: {} as ISurvey,
       surveyResults: [surveyResult1]
     };
     
-    let result =  reducer(initialState, setSurveyResult(surveyResult2));
-    expect(result.surveyResults?.length).toBe(2)
+    let result =  reducer(initialState, getSurveyResultSuccess(surveyResult2));
+    expect(result.surveyResults?.length).toBe(2);
   });
 
   test('setOptionSelection: correctly sets the selected option. Adds item to "surveyResults" array \

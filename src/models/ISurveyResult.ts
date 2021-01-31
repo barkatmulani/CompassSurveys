@@ -1,4 +1,5 @@
 export interface ISurveyResult {
+    userId: string;
     id: number;
     questions: ISurveyResultQuestion[];
 };

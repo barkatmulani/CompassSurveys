@@ -1,25 +1,32 @@
-import { IOption, IQuestion, ISurvey, ISurveyResult } from '../models';
-import { surveyResult, surveys } from './data';
+import { ISurvey, ISurveyResult } from '../models';
+import { surveyResults, surveys } from './data';
 
-export const getAllSurveys = () => {
-    return surveys.map((survey: ISurvey) => ({ id: survey.id, name: survey.name }));
-    // .map((s: ISurvey) => {
-    //     return { ...s, questions: s.questions.map((q: IQuestion) => {
-    //         return { ...q, options: q.options.map((o: IOption) => {
-    //             return { ...o, checked: !!o.checked }
-    //         }) }
-    //     }) }
-    // });
-};
+const USER_ID = '123456';
 
-export const getSurvey = (id: number): Promise<ISurvey> => {
+export const getUserID = (): string => {
+    return USER_ID;
+}
+
+export const fetchAllSurveys = (): Promise<ISurvey[]> => {
     return new Promise((resolve) => {
-        resolve(surveys.find((survey: ISurvey) => survey.id === id) as ISurvey);
+        setTimeout(
+            () => resolve(surveys.map((survey: ISurvey) => ({ id: survey.id, name: survey.name, questions: [] }))),
+            100);
     });
 };
 
-export const getSurveyResult = (id: number): Promise<ISurveyResult> => {
+export const fetchSurvey = (id: number): Promise<ISurvey> => {
     return new Promise((resolve) => {
-        resolve(surveyResult.find((surveyResult: ISurveyResult) => surveyResult.id === id) as ISurveyResult);
+        setTimeout(
+            () => resolve(surveys.find((survey: ISurvey) => survey.id === id) as ISurvey),
+            100);
+    });
+};
+
+export const fetchSurveyResult = (userId: string, id: number): Promise<ISurveyResult> => {
+    return new Promise((resolve) => {
+        setTimeout(
+            () => resolve(surveyResults.find((surveyResult: ISurveyResult) => surveyResult.userId === userId && surveyResult.id === id) as ISurveyResult),
+            100);
     });
 };

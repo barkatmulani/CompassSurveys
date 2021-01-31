@@ -1,16 +1,16 @@
 import React from 'react';
 import './app.scss';
-import { getAllSurveys } from './api/apiServicce';
 import SurveysRouter from './surveys/surveys.router';
 import { connect } from 'react-redux';
-import { setSurveys } from './surveys/redux/surveys.slice';
+import { setUserId, getSurveys } from './surveys/redux/surveys.slice';
 import { ISurvey } from './models';
+import { selectUserId } from './surveys/redux/surveys.selectors';
 
-class App extends React.Component {
+class App extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
-    const surveys = getAllSurveys();
-    props.setSurveys(surveys);
+    props.setUserId('123456');
+    props.getSurveys();
   }
 
   render() {
@@ -28,10 +28,17 @@ class App extends React.Component {
   }
 }
 
+const mapStateToProps = (state: any) => {
+  return {
+      userId: selectUserId(state)
+  };
+};
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setSurveys: (surveys: ISurvey[]) => dispatch(setSurveys(surveys))
+    setUserId: (userId: string) => dispatch(setUserId(userId)),
+    getSurveys: () => dispatch(getSurveys())
   };
 }
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

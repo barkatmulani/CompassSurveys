@@ -18,3 +18,8 @@ export const selectSurveyResults: any = createSelector(
     [surveysSelector],
     (state: ISurveysState) => state.surveyResults
 );
+
+export const selectUserId: any = createSelector(
+    [surveysSelector],
+    (state: ISurveysState) => state.userId
+);

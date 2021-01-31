@@ -1,10 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { shallow } from 'enzyme';
 import App from './app';
 import store from './redux/store';
-import { createStore } from '@reduxjs/toolkit';
-import rootReducer from './redux/rootReducer';
 
 import { storeFactory } from '../test/testUtils';
 import { Provider } from 'react-redux';

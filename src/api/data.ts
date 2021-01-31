@@ -81,8 +81,9 @@ export const surveys: ISurvey[] = [
   }
 ];
 
-export const surveyResult: ISurveyResult[] = [
+export const surveyResults: ISurveyResult[] = [
   {
+    userId: '123456',
     id: 1,
     questions: [
       {
@@ -101,6 +102,7 @@ export const surveyResult: ISurveyResult[] = [
     ]
   },
   {
+    userId: '123456',
     id: 2,
     questions: [
       {

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from "react-redux";
 import { ISurvey, ISurveysState } from "../../models";
 import { selectSurveys } from '../redux/surveys.selectors';
-import { useHistory } from "react-router-dom";
 
 import './main.styles.scss';
 
