@@ -1,9 +1,12 @@
 import React from 'react';
 import './app.scss';
-import SurveysRouter from './surveys/surveys.router';
 import { connect } from 'react-redux';
 import { setUserId, getSurveys } from './surveys/redux/surveys.slice';
 import { selectUserId } from './surveys/redux/surveys.selectors';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+
+import Main from './surveys/main/main.component';
+import Survey from './surveys/survey/survey.component';
 
 class App extends React.Component<any, any> {
   constructor(props: any) {
@@ -22,7 +25,15 @@ class App extends React.Component<any, any> {
         
         <div className="container-fluid row">
           <div className="col-12">
-            <SurveysRouter></SurveysRouter>
+            <Router>
+              <Switch>
+                <Route path="/" exact>
+                    <Redirect to="/surveys" />
+                </Route>
+                <Route path="/surveys" component={Main} />
+                <Route path="/survey/:id" component={Survey} />
+              </Switch>
+            </Router>
           </div>
         </div>
       </div>
