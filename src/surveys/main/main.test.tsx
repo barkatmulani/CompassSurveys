@@ -27,6 +27,7 @@ describe('renders', () => {
 
   const initialState: any = {
     compassSurveys: {
+      userId: '',
       surveys,
       currentSurvey: {} as ISurvey,
       surveyResults: []
